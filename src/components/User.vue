@@ -13,6 +13,7 @@ export default {
     const user = ref(null);
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
       user.value = firebaseUser;
+      console.log("user", firebaseUser);
     });
 
     return {
