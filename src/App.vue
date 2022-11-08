@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="content">
     <header>
       <h1>Vue Voxer</h1>
       <p>Realtime Voice Chat</p>

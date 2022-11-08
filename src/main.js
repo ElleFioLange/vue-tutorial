@@ -8,10 +8,10 @@ Vue.use(VueRouter);
 
 Vue.config.productionTip = false;
 
-import HomePage from "./components/HomePage";
+import Home from "./components/Home";
 
 const router = new VueRouter({
-  routes: [{ path: "/", component: HomePage }],
+  routes: [{ path: "/", component: Home }],
 });
 
 new Vue({
