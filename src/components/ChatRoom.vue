@@ -63,6 +63,9 @@ export default {
     messagesCollection() {
       return db.doc(`chats/${this.chatId}`).collection("messages");
     },
+    newAudioURL() {
+      return URL.createObjectURL(this.newAudio);
+    },
   },
   firestore() {
     return {
@@ -83,6 +86,31 @@ export default {
 
       this.loading = false;
       this.newMessageText = "";
+    },
+    async record() {
+      this.newAudio = null;
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: false,
+      });
+
+      const options = { mimeType: "audio/webm" };
+      const recordedChunks = [];
+      this.recorder = new MediaRecorder(stream, options);
+
+      this.recorder.addEventListener("dataavailable", (e) => {
+        if (e.data.size > 0) {
+          recordedChunks.push(e.data);
+        }
+      });
+
+      this.recorder.addEventListener("stop", () => {
+        this.newAudio = new Blob(recordedChunks);
+        console.log(this.newAudio);
+      });
+
+      this.recorder.start();
     },
   },
 };
