@@ -26,8 +26,8 @@
       <hr />
 
       <button
-        :disabled="!newMessageText || loading"
-        class="bbutton is-success"
+        :disabled="(!newMessageText && !newAudio) || loading"
+        class="button is-success"
         type="text"
         @click="addMessage(user.value.uid)"
       >
@@ -40,7 +40,7 @@
 <script>
 import User from "./User.vue";
 import ChatMessage from "./ChatMessage.vue";
-import { db } from "@/firebase";
+import { db, storage } from "@/firebase";
 
 export default {
   components: {
@@ -76,16 +76,31 @@ export default {
     async addMessage(uid) {
       this.loading = true;
 
+      let audioURL = null;
+
       const { id: messageId } = this.messagesCollection.doc();
+
+      if (this.newAudio) {
+        const storageRef = storage
+          .ref("chats")
+          .child(this.chatId)
+          .child(`${messageId}.wav`);
+
+        await storageRef.put(this.newAudio);
+
+        audioURL = await storageRef.getDownloadURL();
+      }
 
       await this.messagesCollection.doc(messageId).set({
         text: this.newMessageText,
         sender: uid,
         createdAt: Date.now(),
+        audioURL,
       });
 
       this.loading = false;
       this.newMessageText = "";
+      this.newAudio = null;
     },
     async record() {
       this.newAudio = null;
@@ -111,6 +126,10 @@ export default {
       });
 
       this.recorder.start();
+    },
+    async stop() {
+      this.recorder.stop();
+      this.recorder = null;
     },
   },
 };

@@ -1,3 +1,6 @@
+/* Using firebase/compat to enable v8 functionality
+to stay consistent w/ tutorial */
+
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
