@@ -1,3 +1,6 @@
+/* Main entry point for Vue framework
+Setup backend initialization, plugins, and routing here */
+
 import Vue from "vue";
 import App from "./App.vue";
 import { firestorePlugin } from "vuefire";

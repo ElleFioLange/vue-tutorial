@@ -12,6 +12,7 @@ export default {
 };
 </script>
 
+<!-- styles can be scoped with the scoped keyword -->
 <style scoped>
 .message {
   background-color: #dddddd;

@@ -102,6 +102,7 @@ export default {
       this.newMessageText = "";
       this.newAudio = null;
     },
+
     async record() {
       this.newAudio = null;
 
