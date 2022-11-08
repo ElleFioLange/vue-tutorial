@@ -2,7 +2,7 @@
   <div>
     Logged in as {{ user.value.uid }}
 
-    <button @click="auth.signOut()">Sign Out</button>
+    <button class="button" @click="auth.signOut()">Sign Out</button>
   </div>
 </template>
 
