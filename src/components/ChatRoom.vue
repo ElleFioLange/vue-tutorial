@@ -5,11 +5,25 @@
     <User #user="{ user }">
       <ul>
         <li v-for="message of messages" :key="message.id">
-          {{ message.text }}
+          <ChatMessage
+            :message="message"
+            :owner="user.value.uid === message.sender"
+          />
         </li>
       </ul>
 
       <input class="input" v-model="newMessageText" />
+      <hr />
+      <h5>Record Audio</h5>
+
+      <button v-if="!recorder" @click="record()" class="button">
+        Record message
+      </button>
+      <button v-else @click="stop()" class="button">Stop</button>
+
+      <audio v-if="newAudio" :src="newAudioURL" controls></audio>
+
+      <hr />
 
       <button
         :disabled="!newMessageText || loading"
@@ -25,17 +39,21 @@
 
 <script>
 import User from "./User.vue";
+import ChatMessage from "./ChatMessage.vue";
 import { db } from "@/firebase";
 
 export default {
   components: {
     User,
+    ChatMessage,
   },
   data() {
     return {
       newMessageText: "",
       loading: false,
       messages: [],
+      newAudio: null,
+      recorder: null,
     };
   },
   computed: {
@@ -69,3 +87,21 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 500px;
+  background: #efefef;
+  padding: 10px;
+  border-radius: 0;
+}
+
+li {
+  display: flex;
+}
+</style>
